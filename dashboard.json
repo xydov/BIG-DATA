@@ -1,0 +1,256 @@
+{
+  "title": "NEO4J JO",
+  "version": "2.4",
+  "settings": {
+    "pagenumber": 0,
+    "editable": true,
+    "fullscreenEnabled": false,
+    "parameters": {},
+    "theme": "light"
+  },
+  "pages": [
+    {
+      "title": "Main Page",
+      "reports": [
+        {
+          "id": "1a4f2641-c36c-41bd-ba06-aa5be601aa8a",
+          "title": "classement des pays en termes d'obtention des medailles d'or",
+          "query": "\nMatch (m:medaille)<-[:A_obtenu]-(p:pays)\nRETURN p.country_noc AS Country,\n       SUM(CASE WHEN m.medal = 'Gold' THEN 1 ELSE 0 END) AS Gold,\n       SUM(CASE WHEN m.medal = 'Silver' THEN 1 ELSE 0 END) AS Silver,\n       SUM(CASE WHEN m.medal = 'Bronze' THEN 1 ELSE 0 END) AS Bronze\nORDER BY Gold DESC, Silver DESC, Bronze DESC\nLIMIT 10\n",
+          "width": 9,
+          "height": 3,
+          "x": 15,
+          "y": 8,
+          "type": "bar",
+          "selection": {
+            "index": "Country",
+            "value": "Gold",
+            "key": "(none)"
+          },
+          "settings": {},
+          "schema": []
+        },
+        {
+          "id": "ff063df9-5c03-46f9-9c88-dcbf8cc5e61e",
+          "title": "Athletes per edition (top 10)",
+          "query": "MATCH (a:athlete)-[:Participe]->(e:edition)\nRETURN e.edition AS EDITION, COUNT(a) AS AthleteCount\nORDER BY AthleteCount DESC\nLIMIT 10\n",
+          "width": 6,
+          "height": 4,
+          "x": 0,
+          "y": 4,
+          "type": "pie",
+          "selection": {
+            "index": "EDITION",
+            "value": "AthleteCount",
+            "key": "(none)"
+          },
+          "settings": {},
+          "schema": []
+        },
+        {
+          "id": "8273bc82-b46b-43fd-927f-7ae1e6344b65",
+          "title": "Countries and their medals ( top 10)",
+          "query": "\nMatch (m:medaille)<-[:A_obtenu]-(p:pays)\nRETURN p.country_noc AS Country,\n       SUM(CASE WHEN m.medal = 'Gold' THEN 1 ELSE 0 END) AS Gold,\n       SUM(CASE WHEN m.medal = 'Silver' THEN 1 ELSE 0 END) AS Silver,\n       SUM(CASE WHEN m.medal = 'Bronze' THEN 1 ELSE 0 END) AS Bronze\nORDER BY Gold DESC, Silver DESC, Bronze DESC\nLimit 20\n\n",
+          "width": 5,
+          "height": 4,
+          "x": 15,
+          "y": 0,
+          "type": "radar",
+          "selection": {
+            "index": "Country",
+            "values": [
+              "Gold",
+              "Silver",
+              "Bronze"
+            ]
+          },
+          "settings": {},
+          "schema": []
+        },
+        {
+          "id": "25aef7c6-f33f-4aea-836f-68d9fd93dba6",
+          "title": "Number of Athletes per Country",
+          "query": "\nMATCH (a:athlete)-[:Represente]->(p:pays)\nRETURN p.country_noc AS Country, COUNT(a) AS Athletes\nORDER BY Athletes DESC\n\n\n",
+          "width": 10,
+          "height": 4,
+          "x": 5,
+          "y": 0,
+          "type": "choropleth",
+          "selection": {
+            "index": "Country",
+            "value": "Athletes",
+            "key": "(none)"
+          },
+          "settings": {},
+          "schema": []
+        },
+        {
+          "id": "9dcec3ca-646b-4aa0-892a-ba38b15949b4",
+          "title": "ATHLETES",
+          "query": "MATCH (n:athlete)\nRETURN COUNT(n) as Total",
+          "width": 4,
+          "height": 2,
+          "x": 20,
+          "y": 2,
+          "type": "value",
+          "selection": {},
+          "settings": {
+            "backgroundColor": "#F8F8F8",
+            "fontSize": 32,
+            "format": "auto"
+          },
+          "schema": []
+        },
+        {
+          "id": "434d2020-be65-48f0-a6f2-052dcbc6b6e7",
+          "title": "DISCIPLINE",
+          "query": "MATCH (n:discipline)\nRETURN COUNT(n) as Total\n\n\n\n\n\n",
+          "width": 7,
+          "height": 2,
+          "x": 8,
+          "y": 12,
+          "type": "value",
+          "selection": {},
+          "settings": {
+            "backgroundColor": "#FFFF9C"
+          },
+          "schema": []
+        },
+        {
+          "id": "c50b0fb2-7a8e-4f92-8597-9c7fc2ce834c",
+          "title": "SPORT",
+          "query": "MATCH (n:sport)\nRETURN COUNT(n) as Total\n\n\n\n\n\n\n\n\n",
+          "width": 4,
+          "height": 2,
+          "x": 20,
+          "y": 0,
+          "type": "value",
+          "selection": {},
+          "settings": {},
+          "schema": []
+        },
+        {
+          "id": "4b7a8e2c-53fd-4ee5-910f-6e5b9e6a4426",
+          "title": "MOST MEDALS  THE HISTORY",
+          "query": "The United States is the most successful nation in Olympic history, excelling in sports like swimming, athletics, and gymnastics. Its athletes consistently showcase exceptional talent and achievement![USA](https://upload.wikimedia.org/wikipedia/commons/5/52/US_map_-_states.png)",
+          "width": 5,
+          "height": 4,
+          "x": 0,
+          "y": 9,
+          "type": "text",
+          "selection": {},
+          "settings": {
+            "backgroundColor": "#FFFFFF"
+          },
+          "schema": []
+        },
+        {
+          "id": "4d7a6947-c8f0-4d6a-ad5e-c4af61f806d3",
+          "title": "ATHLETE WITH MOST MEDALS IN HISTORY",
+          "query": "\nMATCH (a:athlete)-[:Obtient]->(m:medaille)\nRETURN a.name AS Athlete, COUNT(m) AS MedalCount\nORDER BY MedalCount DESC\nLIMIT 1\n\n\n",
+          "width": 8,
+          "height": 2,
+          "x": 0,
+          "y": 13,
+          "type": "value",
+          "selection": {},
+          "settings": {
+            "backgroundColor": "#E1E1FF"
+          },
+          "schema": []
+        },
+        {
+          "id": "7d36195b-fe3a-4661-9edd-d4cb3d95a5d2",
+          "title": "Micheal Phelps : star of USA",
+          "query": "Michael Phelps is an American former swimmer, holding the record for the most Olympic gold medals and numerous world records, making him one of the greatest athletes ever![Micheal Phelps](https://upload.wikimedia.org/wikipedia/commons/thumb/1/1a/Michael_Phelps_%286421139485%29.jpg/640px-Michael_Phelps_%286421139485%29.jpg)",
+          "width": 9,
+          "height": 4,
+          "x": 6,
+          "y": 4,
+          "type": "text",
+          "selection": {},
+          "settings": {},
+          "schema": []
+        },
+        {
+          "id": "d299ae14-1963-4ed8-bf02-da95b50ae444",
+          "title": "Discipline Popularity",
+          "query": "MATCH (a:athlete)-[:Compete]->(d:discipline)\nRETURN d.discipline AS Discipline, COUNT(a) AS AthleteCount\nORDER BY AthleteCount DESC\nlimit 10\n",
+          "width": 9,
+          "height": 4,
+          "x": 15,
+          "y": 11,
+          "type": "pie",
+          "selection": {
+            "index": "Discipline",
+            "value": "AthleteCount",
+            "key": "(none)"
+          },
+          "settings": {},
+          "schema": []
+        },
+        {
+          "id": "21fafb5a-3481-48e3-9c78-7d4afba885cd",
+          "title": "Athletes who Participated in Many Disciplines",
+          "query": "MATCH (a:athlete)-[:Compete]->(d:discipline)\nWITH a, COUNT(d) AS disciplineCount\nWHERE disciplineCount > 1\nRETURN a.name AS Athlete, disciplineCount AS NumberOfDisciplines\nORDER BY disciplineCount DESC\nlimit 1000\n",
+          "width": 9,
+          "height": 4,
+          "x": 6,
+          "y": 8,
+          "type": "table",
+          "selection": {},
+          "settings": {
+            "type": "Relationship Property"
+          },
+          "schema": []
+        },
+        {
+          "id": "1d7de123-f146-44c1-aad9-73cd629196e9",
+          "title": "Medals per Edition",
+          "query": "\nMATCH (e:edition)<-[:Participe]-(a:athlete)\nOPTIONAL MATCH (a)-[:Obtient]->(m:medaille)\nRETURN \n  e.edition AS Edition, \n  COUNT(DISTINCT a) AS AthleteCount, \n  COUNT(m) AS MedalCount\nORDER BY e.edition\n\n\n",
+          "width": 9,
+          "height": 4,
+          "x": 15,
+          "y": 4,
+          "type": "line",
+          "selection": {
+            "x": "Edition",
+            "value": [
+              "MedalCount"
+            ]
+          },
+          "settings": {},
+          "schema": []
+        },
+        {
+          "id": "0ae94b21-a17e-4f1d-bab4-b03ab61bc43e",
+          "title": "Athletes Multiple Disciplines",
+          "query": "MATCH (a:athlete)-[:Compete]->(d:discipline)\nWITH a, COUNT(d) AS editions\nWHERE editions > 1\nWITH COUNT(a) AS AthletesMultipleEditions\nMATCH (a2:athlete)\nWITH AthletesMultipleEditions, COUNT(a2) AS TotalAthletes\nRETURN (AthletesMultipleEditions * 100.0 / TotalAthletes) AS PercentageMultipleEditions\n",
+          "width": 5,
+          "height": 4,
+          "x": 0,
+          "y": 0,
+          "type": "gauge",
+          "selection": {},
+          "settings": {},
+          "schema": []
+        }
+      ]
+    },
+    {
+      "title": "New page",
+      "reports": []
+    }
+  ],
+  "parameters": {},
+  "extensions": {
+    "active": true,
+    "activeReducers": [],
+    "advanced-charts": {
+      "active": true
+    },
+    "styling": {
+      "active": true
+    }
+  },
+  "uuid": "793b1e01-0aa6-4dc5-891a-19e36e6e0ec8"
+}
