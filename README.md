@@ -1,7 +1,7 @@
 # OLYMPIC GAMES DATA BASE MODELISATION
 This project leverages Neo4j to analyze the Olympic Games dataset, focusing on relationships between athletes, countries, sports, editions, and medals. By incorporating social data like tweets, it offers insights into the dynamics and impact of the Games through innovative visualizations and analyses
 
-![Dashboard](capture_dash.png)
+![Dashboard](/files/capture_dash.png)
 
  Preprocessing was performed to facilitate data import, ensuring seamless integration and exploration. The necessary command for importing the data is provided below :
  
